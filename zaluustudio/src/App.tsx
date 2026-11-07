@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import BudgetSelector from './components/BudgetSelector';
 import ContactForm from './components/ContactForm';
-import { capabilities, concepts, processSteps, services } from './data';
+import { capabilities, processSteps, services } from './data';
 import { contactConfig } from './config/contact';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,7 +30,7 @@ function SiteHeader() {
   const links = [
     { href: '#about', label: 'Бидний тухай' },
     { href: '#services', label: 'Үйлчилгээ' },
-    { href: '#work', label: 'Бүтээл' },
+    { href: '#playground', label: 'Туршилт' },
     { href: '#process', label: 'Явц' },
   ];
 
@@ -87,54 +87,6 @@ function HeroVisual() {
       <span className="orbit-dot orbit-dot--three" />
       <span className="art-coordinate">47°55' · 106°55'</span>
     </div>
-  );
-}
-
-function Portfolio() {
-  const [active, setActive] = useState(0);
-  const concept = concepts[active] ?? concepts[0];
-
-  return (
-    <section className="portfolio-section section-pad" id="work">
-      <div className="section-head portfolio-head reveal">
-        <div>
-          <span className="eyebrow"><span className="eyebrow-line" /> БИДНИЙ БОЛОМЖ</span>
-          <h2>Бид юу хийж <span className="italic-accent">чадах вэ?</span></h2>
-        </div>
-        <p>Эдгээр нь жишээ санааг харуулах <b>концепц загварууд</b> — бодит захиалагчийн ажил биш.</p>
-      </div>
-      <div className="portfolio-layout">
-        <div className="portfolio-list" role="tablist" aria-label="Концепц загвар сонгох">
-          {concepts.map((item, index) => (
-            <button
-              className={`portfolio-list-item${active === index ? ' is-active' : ''}`}
-              role="tab"
-              aria-selected={active === index}
-              aria-controls="portfolio-preview"
-              id={`portfolio-tab-${index}`}
-              key={item.id}
-              onClick={() => setActive(index)}
-              type="button"
-            >
-              <span className="portfolio-list-number">0{index + 1}</span>
-              <span className="portfolio-list-copy"><small>{item.type}</small><strong>{item.title}</strong></span>
-              <ArrowUpRight size={18} />
-            </button>
-          ))}
-          <div className="portfolio-caption"><span className="tiny-spark">✳</span><span>Гурван өөр салбар.<br />Гурван өөр өнгө төрх.</span></div>
-        </div>
-        <div className="portfolio-preview" id="portfolio-preview" role="tabpanel" aria-labelledby={`portfolio-tab-${active}`} key={concept.id}>
-          <div className={`concept-image concept-image--${concept.theme}`}>
-            <img src={concept.image} alt={concept.alt} loading="lazy" decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; }} />
-            <div className="concept-image-scrim" />
-            <div className="concept-chip"><span /> КОНЦЕПЦ ЗАГВАР</div>
-            <div className="concept-browser-bar"><span className="browser-dots"><i /><i /><i /></span><span>үзүүлбэр / 0{active + 1}</span><ArrowUpRight size={14} /></div>
-            <div className="concept-title-over-image"><small>{concept.type}</small><h3>{concept.title}</h3><p>{concept.subtitle}</p></div>
-            <span className="image-index">0{active + 1} <i>/ 03</i></span>
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -198,18 +150,37 @@ function CreativeShowcase() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <a className="brand-mark" href="#top" aria-label="Залуус — нүүр хуудас">
-        <span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span>
-        <span className="brand-name">залуус<span>.</span></span>
-      </a>
-      <span className="footer-line">ШИНЭ САНААГААС — ШИНЭ ВЕБ РҮҮ</span>
-      <div className="footer-links">
-        {contactConfig.email ? <a href={`mailto:${contactConfig.email}`}>И-мэйл <ArrowUpRight size={13} /></a> : <span>И-мэйл тохируулаагүй</span>}
-        {contactConfig.phone ? <a href={`tel:${contactConfig.phone.replace(/\s/g, '')}`}>Утас <ArrowUpRight size={13} /></a> : <span>Утас тохируулаагүй</span>}
-        {contactConfig.facebook && <a href={contactConfig.facebook} target="_blank" rel="noreferrer">Facebook <ArrowUpRight size={13} /></a>}
-        {contactConfig.instagram && <a href={contactConfig.instagram} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={13} /></a>}
+      <div className="footer-main">
+        <div className="footer-brand-block">
+          <a className="brand-mark" href="#top" aria-label="Залуус — нүүр хуудас">
+            <span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span>
+            <span className="brand-name">Залуус<span>.</span></span>
+          </a>
+          <p>Шинэ санаанаас — шинэ веб рүү.<br />Таны бизнесийн цахим орон зайг хамтдаа бүтээе.</p>
+        </div>
+        <nav className="footer-nav" aria-label="Хуудасны доод цэс">
+          <span className="micro-label">ТАНИЛЦАХ</span>
+          <a href="#about">Бидний тухай</a>
+          <a href="#services">Үйлчилгээ</a>
+          <a href="#playground">Туршиж үзэх</a>
+          <a href="#process">Ажлын явц</a>
+        </nav>
+        <div className="footer-contact">
+          <span className="micro-label">ХАМТДАА ЭХЭЛЬЕ</span>
+          <a className="footer-invitation" href="#contact">Санаагаа ярилцъя <ArrowUpRight size={24} /></a>
+          <div className="footer-links">
+            {contactConfig.email && <a href={`mailto:${contactConfig.email}`}>И-мэйл <ArrowUpRight size={13} /></a>}
+            {contactConfig.phone && <a href={`tel:${contactConfig.phone.replace(/\s/g, '')}`}>Утас <ArrowUpRight size={13} /></a>}
+            {contactConfig.facebook && <a href={contactConfig.facebook} target="_blank" rel="noreferrer">Facebook <ArrowUpRight size={13} /></a>}
+            {contactConfig.instagram && <a href={contactConfig.instagram} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={13} /></a>}
+          </div>
+        </div>
       </div>
-      <a className="back-top" href="#top">ДЭЭШ <ArrowUp size={13} /></a>
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} Залуус. Бүх эрх хуулиар хамгаалагдсан.</span>
+        <span className="footer-signature">САНАА · ДИЗАЙН · ХӨГЖҮҮЛЭЛТ</span>
+        <a className="back-top" href="#top">ДЭЭШ <ArrowUp size={13} /></a>
+      </div>
     </footer>
   );
 }
@@ -334,7 +305,7 @@ export default function App() {
               <p className="hero-budget-line">Таны төсөвт тааруулж, <strong>таны хүссэн вебийг бүтээнэ.</strong></p>
               <div className="hero-actions">
                 <a className="button-primary magnetic" href="#contact" onPointerMove={handleMagneticPointer} onPointerLeave={resetMagneticPointer}><span>Веб сайт захиалах</span><span className="button-icon"><ArrowUpRight size={18} /></span></a>
-                <a className="button-secondary" href="#work">Бидний чадварыг харах <ArrowDownRight size={17} /></a>
+                <a className="button-secondary" href="#playground">Бидний чадварыг харах <ArrowDownRight size={17} /></a>
               </div>
             </div>
             <HeroVisual />
@@ -411,7 +382,6 @@ export default function App() {
           </div>
         </section>
 
-        <Portfolio />
         <CreativeShowcase />
 
         <section className="process-section section-pad" id="process">
